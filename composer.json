@@ -1,5 +1,5 @@
 {
-    "name": "elkan/behatformatter",
+    "name": "kadse/behatformatter",
     "description": "This will create a formatter for Behat 3! Fast, Easy and Pretty!",
     "license": "MIT",
     "authors": [
@@ -15,12 +15,22 @@
         "behat/behat": "~3.0",
         "behat/mink": "^1.7",
         "behat/mink-extension": "*",
-        "behat/mink-selenium2-driver": "^1.3"
+        "kadse/mink-selenium2-driver": "^2.0"
     },
     "require-dev": {
         "symfony/process": "~3.0",
         "phpunit/phpunit": "~4.1"
     },
+    "repositories": [
+        {
+            "type": "github",
+            "url": "git@github.com:kadse/MinkSelenium2Driver.git"
+        },
+        {
+            "type": "github",
+            "url": "git@github.com:kadse/php-webdriver.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "elkan\\BehatFormatter\\": "src/"
