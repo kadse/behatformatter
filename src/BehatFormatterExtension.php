@@ -61,6 +61,8 @@ class BehatFormatterExtension implements ExtensionInterface {
     $builder->children()->scalarNode("print_outp")->defaultValue("false");
     $builder->children()->scalarNode("loop_break")->defaultValue("false");
     $builder->children()->scalarNode("show_tags")->defaultValue("false");
+    $builder->children()->scalarNode('twig_template_file')->defaultValue('index.html.twig');
+    $builder->children()->scalarNode('twig_template_path')->defaultValue(__DIR__ .'/../templates');
     $builder->children()->scalarNode('output')->defaultValue('.');
   }
 
@@ -82,6 +84,8 @@ class BehatFormatterExtension implements ExtensionInterface {
     $definition->addArgument($config['print_outp']);
     $definition->addArgument($config['loop_break']);
     $definition->addArgument($config['show_tags']);
+    $definition->addArgument($config['twig_template_file']);
+    $definition->addArgument($config['twig_template_path']);
 
     $definition->addArgument('%paths.base%');
     $container->setDefinition("html.formatter", $definition)

@@ -32,12 +32,13 @@ class TwigRenderer implements RendererInterface {
 	 */
     public function renderAfterExercise(BehatFormatter $obj): string
     {
+    	$fileName = $obj->getParameter('twig_template_file');
+		$templatePath = $obj->getParameter('twig_template_path');
 
-        $templatePath = dirname(__FILE__).'/../../templates';
         $loader = new Twig_Loader_Filesystem($templatePath);
         $twig = new Twig_Environment($loader, array());
         $twig->addFilter('var_dump', new Twig_Filter_Function('var_dump'));
-        $print = $twig->render('index.html.twig',
+        $print = $twig->render($fileName,
             array(
                 'projectname'           => $obj->getProjectName(),
                 'projectdescription'    => $obj->getProjectDescription(),
