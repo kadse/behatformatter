@@ -203,8 +203,11 @@ class BehatFormatter implements Formatter {
      * @param $name
      * @param $base_path
      */
-    function __construct($name, $projectName, $projectImage, $projectDescription, $renderer, $filename, $print_args, $print_outp, $loop_break, $show_tags, $base_path)
-    {
+    function __construct(
+    	$name, $projectName, $projectImage, $projectDescription, $renderer,
+		$filename, $print_args, $print_outp, $loop_break, $show_tags,
+		$twig_template_file, $twig_template_path, $base_path
+	) {
         $this->projectname = $projectName;
         $this->projectimage = $projectImage;
         $this->projectdescription = $projectDescription;
@@ -214,6 +217,9 @@ class BehatFormatter implements Formatter {
         $this->print_outp = $print_outp;
         $this->loop_break = $loop_break;
         $this->show_tags = $show_tags;
+		$this->setParameter('twig_template_file', $twig_template_file);
+		$this->setParameter('twig_template_path', $twig_template_path);
+
         $this->renderer = new BaseRenderer($renderer, $base_path);
         $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $filename, $base_path);
         $this->timer = new Timer();
