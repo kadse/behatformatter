@@ -542,6 +542,7 @@ class BehatFormatter implements Formatter {
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
         $this->timer->start();
+        Context\BehatFormatterContext::setUpHtmlSourceErrorOutput4ElkanBehatFormatter($this->getParameter('html_source_error_output'));
 
         $print = $this->renderer->renderBeforeExercise($this);
         $this->printer->write($print);
@@ -726,7 +727,6 @@ class BehatFormatter implements Formatter {
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
-        $step->setHtmlSourceErrorOutput($this->getParameter('html_source_error_output'));
 
         //What is the result of this step ?
         if(is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {

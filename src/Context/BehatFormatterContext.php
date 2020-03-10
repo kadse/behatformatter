@@ -23,6 +23,15 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
     public static $time;
     public static $date;
     public static $transformArray;
+    private static $htmlSourceErrorOutput;
+
+    /**
+     * @param bool $htmlSourceErrorOutput
+     */
+    public static function setUpHtmlSourceErrorOutput4ElkanBehatFormatter($htmlSourceErrorOutput)
+    {
+        self::$htmlSourceErrorOutput = $htmlSourceErrorOutput;
+    }
 
     /**
      * @BeforeFeature
@@ -88,7 +97,7 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
 
         // Let us save the page source code on errors:
         // It helps us debug the test.
-        if(!$stepPassed && $scope->getTestResult()->getHtmlSourceErrorOutput())
+        if(!$stepPassed && self::$htmlSourceErrorOutput)
         {
             //create filename string
             $fileName = $currentSuite.".".basename($scope->getFeature()->getFile()).'.'.$scope->getStep()->getLine().'.html';
