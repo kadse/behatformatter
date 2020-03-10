@@ -206,7 +206,7 @@ class BehatFormatter implements Formatter {
     function __construct(
     	$name, $projectName, $projectImage, $projectDescription, $renderer,
 		$filename, $print_args, $print_outp, $loop_break, $show_tags,
-		$twig_template_file, $twig_template_path, $base_path
+		$twig_template_file, $twig_template_path, $html_source_error_output, $base_path
 	) {
         $this->projectname = $projectName;
         $this->projectimage = $projectImage;
@@ -219,6 +219,7 @@ class BehatFormatter implements Formatter {
         $this->show_tags = $show_tags;
 		$this->setParameter('twig_template_file', $twig_template_file);
 		$this->setParameter('twig_template_path', $twig_template_path);
+        $this->setParameter('html_source_error_output', $html_source_error_output);
 
         $this->renderer = new BaseRenderer($renderer, $base_path);
         $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $filename, $base_path);
@@ -725,6 +726,7 @@ class BehatFormatter implements Formatter {
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
+        $step->setHtmlSourceErrorOutput($this->getParameter('html_source_error_output'));
 
         //What is the result of this step ?
         if(is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {

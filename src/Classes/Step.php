@@ -20,6 +20,7 @@ class Step
     private $resultCode;
     private $exception;
     private $output;
+    private $html_source_error_output;
     private $definition;
     private $screenshot;
 
@@ -163,6 +164,22 @@ class Step
     public function setOutput($output)
     {
         $this->output = $output;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHtmlSourceErrorOutput()
+    {
+        return $this->html_source_error_output;
+    }
+
+    /**
+     * @param bool $html_source_error_output
+     */
+    public function setHtmlSourceErrorOutput($html_source_error_output)
+    {
+        $this->html_source_error_output = $html_source_error_output;
     }
 
     /**

@@ -54,9 +54,10 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
     public function afterStepScreenShotOnFailure(AfterStepScope $scope)
     {
         $currentSuite = self::$currentSuite;
+        $stepPassed = $scope->getTestResult()->isPassed();
 
         //if test has failed, and is not an api test, get screenshot
-        if(!$scope->getTestResult()->isPassed() || $scope->getStep()->getKeywordType() === "Then")
+        if(!$stepPassed)
         {
             $driver = $this->getSession()->getDriver();
             if (!$driver instanceof Selenium2Driver) {
@@ -87,8 +88,7 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
 
         // Let us save the page source code on errors:
         // It helps us debug the test.
-
-        if(!$scope->getTestResult()->isPassed())
+        if(!$stepPassed && $scope->getTestResult()->getHtmlSourceErrorOutput())
         {
             //create filename string
             $fileName = $currentSuite.".".basename($scope->getFeature()->getFile()).'.'.$scope->getStep()->getLine().'.html';
