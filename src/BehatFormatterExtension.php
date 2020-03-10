@@ -64,7 +64,7 @@ class BehatFormatterExtension implements ExtensionInterface {
     $builder->children()->scalarNode('twig_template_file')->defaultValue('index.html.twig');
     $builder->children()->scalarNode('twig_template_path')->defaultValue(__DIR__ .'/../templates');
     $builder->children()->scalarNode('output')->defaultValue('.');
-    $builder->children()->scalarNode('html_source_error_output')->defaultValue('true');
+    $builder->children()->scalarNode('html_source_error_output')->defaultValue(true);
   }
 
   /**
