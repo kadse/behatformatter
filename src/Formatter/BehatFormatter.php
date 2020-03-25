@@ -625,10 +625,12 @@ class BehatFormatter implements Formatter {
     public function onBeforeScenarioTested(BeforeScenarioTested $event)
     {
         $scenario = new Scenario();
-        $scenario->setName($event->getScenario()->getTitle());
-        $scenario->setTags($event->getScenario()->getTags());
-        $scenario->setLine($event->getScenario()->getLine());
-        $scenario->setScreenshotName($event->getScenario()->getTitle());
+        $eventScenario = $event->getScenario();
+
+        $scenario->setName($eventScenario->getTitle());
+        $scenario->setTags($eventScenario->getTags());
+        $scenario->setLine($eventScenario->getLine());
+        $scenario->setScreenshotName($event->getFeature()->getTitle() . '.SzenarioLine' . $eventScenario->getLine());
         $this->currentScenario = $scenario;
 
         $print = $this->renderer->renderBeforeScenario($this);
@@ -718,7 +720,6 @@ class BehatFormatter implements Formatter {
     {
         $result = $event->getTestResult();
 
-        //$this->dumpObj($event->getStep()->getArguments());
         /** @var Step $step */
         $step = new Step();
         $step->setKeyword($event->getStep()->getKeyword());
@@ -754,9 +755,9 @@ class BehatFormatter implements Formatter {
             }
         }
         if(($step->getResultCode() == "99") || ($step->getResult()->isPassed() && $step->getKeyword() === "Then")){
-            $scenarioLine = empty($this->currentExampleLines) ? $this->currentScenario->getLine() : $this->currentExampleLines[$this->currentExampleCount++];
-            $screenshot = $event->getSuite()->getName().".".basename($event->getFeature()->getFile()).".$scenarioLine.".$event->getStep()->getLine().".png";
-            $screenshot = str_replace('.feature', '', $screenshot);
+            $stepLine = 'StepLine' . $event->getStep()->getLine();
+            $screenshot = $event->getSuite()->getName(). '.' .$this->currentScenario->getScreenshotName();
+            $screenshot = str_replace('.png', '.' . $stepLine . '.png', $screenshot);
 
             if (file_exists(getcwd().DIRECTORY_SEPARATOR.".tmp_behatFormatter".DIRECTORY_SEPARATOR.$screenshot)){
                 $screenshot = 'assets'.DIRECTORY_SEPARATOR.'screenshots'.DIRECTORY_SEPARATOR.$screenshot;
