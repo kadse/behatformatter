@@ -17,7 +17,6 @@ class Feature
     private $description;
     private $tags;
     private $file;
-    private $screenshotFolder;
     private $failedScenarios = 0;
     private $passedScenarios = 0;
     private $scenarioCounter = 1;

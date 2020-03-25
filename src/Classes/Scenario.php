@@ -19,7 +19,6 @@ class Scenario
     private $line;
     private $tags;
     private $loopCount;
-    private $screenshotName;
 
     /**
      * @var bool
