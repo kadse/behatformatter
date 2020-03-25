@@ -347,7 +347,7 @@ class Behat2Renderer implements RendererInterface {
         $exception = $step->getException();
         if(!empty($exception)) {
             $relativeScreenshotPath = $step->getScreenshot();
-            $fullScreenshotPath = $obj->getBasePath() . '/results/html/' . $relativeScreenshotPath;
+            $fullScreenshotPath = $obj->getOutputPrinter()->getOutputPath() . '/' . $relativeScreenshotPath;
             $print .= '
                         <pre class="backtrace">'.$step->getException().'</pre>';
             if(file_exists($fullScreenshotPath))

@@ -752,7 +752,7 @@ class BehatFormatter implements Formatter {
                 }
             }
         }
-        if ($step->getResultCode()->isFailed() || ($step->getResult()->isPassed() && $step->getKeyword() === "Then")) {
+        if ($step->isFailed() || ($step->getResult()->isPassed() && $step->getKeyword() === "Then")) {
             $screenshot = self::buildScreenshotName(
                 $event->getSuite()->getName(),
                 $event->getFeature()->getTitle(),
