@@ -96,22 +96,6 @@ class Feature
     }
 
     /**
-     * @return mixed
-     */
-    public function getScreenshotFolder()
-    {
-        return $this->screenshotFolder;
-    }
-
-    /**
-     * @param String $featureName
-     */
-    public function setScreenshotFolder($featureName)
-    {
-        $this->screenshotFolder = str_replace(' ','', $featureName);
-    }
-
-    /**
      * @return Scenario[]
      */
     public function getScenarios()

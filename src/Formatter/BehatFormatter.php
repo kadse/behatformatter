@@ -596,7 +596,6 @@ class BehatFormatter implements Formatter {
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
-        $feature->setScreenshotFolder($event->getSuite()->getName().'/'.$event->getFeature()->getTitle());
         $this->currentFeature = $feature;
 
         $print = $this->renderer->renderBeforeFeature($this);
@@ -630,7 +629,6 @@ class BehatFormatter implements Formatter {
         $scenario->setName($eventScenario->getTitle());
         $scenario->setTags($eventScenario->getTags());
         $scenario->setLine($eventScenario->getLine());
-        $scenario->setScreenshotName($event->getFeature()->getTitle() . '.SzenarioLine' . $eventScenario->getLine());
         $this->currentScenario = $scenario;
 
         $print = $this->renderer->renderBeforeScenario($this);
@@ -754,13 +752,16 @@ class BehatFormatter implements Formatter {
                 }
             }
         }
-        if(($step->getResultCode() == "99") || ($step->getResult()->isPassed() && $step->getKeyword() === "Then")){
-            $stepLine = 'StepLine' . $event->getStep()->getLine();
-            $screenshot = $event->getSuite()->getName(). '.' .$this->currentScenario->getScreenshotName();
-            $screenshot = str_replace('.png', '.' . $stepLine . '.png', $screenshot);
+        if ($step->getResultCode()->isFailed() || ($step->getResult()->isPassed() && $step->getKeyword() === "Then")) {
+            $screenshot = self::buildScreenshotName(
+                $event->getSuite()->getName(),
+                $event->getFeature()->getTitle(),
+                $this->currentScenario->getLine(),
+                $event->getStep()->getLine()
+            );
 
-            if (file_exists(getcwd().DIRECTORY_SEPARATOR.".tmp_behatFormatter".DIRECTORY_SEPARATOR.$screenshot)){
-                $screenshot = 'assets'.DIRECTORY_SEPARATOR.'screenshots'.DIRECTORY_SEPARATOR.$screenshot;
+            if (file_exists(getcwd() . DIRECTORY_SEPARATOR . '.tmp_behatFormatter' . DIRECTORY_SEPARATOR . $screenshot)) {
+                $screenshot = 'assets' . DIRECTORY_SEPARATOR . 'screenshots' . DIRECTORY_SEPARATOR . $screenshot;
                 $step->setScreenshot($screenshot);
             }
         }
@@ -789,5 +790,18 @@ class BehatFormatter implements Formatter {
         var_dump($obj);
         $result = ob_get_clean();
         $this->printText($result);
+    }
+
+    /**
+     * @param string $suite
+     * @param string $feature
+     * @param int $scenarioLine
+     * @param int $stepLine
+     *
+     * @return string
+     */
+    public static function buildScreenshotName($suite, $feature, $scenarioLine, $stepLine = null)
+    {
+        return $suite . '.' . str_replace(' ', '_', $feature) . '.ScenarioLine' . $scenarioLine . '.StepLine' . $stepLine . '.png';
     }
 }

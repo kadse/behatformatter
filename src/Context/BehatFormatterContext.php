@@ -10,6 +10,7 @@ use Behat\Behat\Hook\Scope\BeforeFeatureScope;
 
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\MinkExtension\Context\MinkContext;
+use elkan\BehatFormatter\Formatter\BehatFormatter;
 
 /**
  * Class BehatFormatterContext
@@ -74,8 +75,12 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
             }
 
             //create filename string
-            $fileName = $currentSuite.".".basename($scope->getFeature()->getFile()).'.'.$this->currentScenario->getLine().'.'.$scope->getStep()->getLine().'.png';
-            $fileName = str_replace('.feature', '', $fileName);
+            $fileName = BehatFormatter::buildScreenshotName(
+                $currentSuite,
+                $scope->getFeature()->getTitle(),
+                $this->currentScenario->getLine(),
+                $scope->getStep()->getLine()
+            );
 
             /*
              * Determine destination folder!

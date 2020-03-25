@@ -186,7 +186,7 @@ class Step
      */
     public function isPassed()
     {
-        return $this->resultCode == StepResult::PASSED;
+        return $this->resultCode === StepResult::PASSED;
     }
     
      /**
@@ -194,7 +194,7 @@ class Step
      */
     public function isSkipped()
     {
-        return $this->resultCode == StepResult::SKIPPED;
+        return $this->resultCode === StepResult::SKIPPED;
     }
     
      /**
@@ -202,7 +202,7 @@ class Step
      */
     public function isPending()
     {
-        return ($this->resultCode == StepResult::PENDING || $this->resultCode == StepResult::UNDEFINED);
+        return ($this->resultCode === StepResult::PENDING || $this->resultCode === StepResult::UNDEFINED);
     }
     
      /**
@@ -210,6 +210,6 @@ class Step
      */
     public function isFailed()
     {
-        return $this->resultCode == StepResult::FAILED;
+        return $this->resultCode === StepResult::FAILED;
     }
 }
